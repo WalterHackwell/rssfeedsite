@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Professional Website with RSS Feeds</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <h1>Welcome to our Professional Website</h1>
+      <p>Here you will find multiple tables with RSS feeds:</p>
+      <table id="rss-table-1"></table>
+      <table id="rss-table-2"></table>
+      <table id="rss-table-3"></table>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/rss-parser@2.0.1/dist/rss-parser.min.js"></script>
+    <script>
+      const parser = new RSSParser();
+      const urls = [
+        "https://rss.com/feed1",
+        "https://rss.com/feed2",
+        "https://rss.com/feed3"
+      ];
+      urls.forEach((url, index) => {
+        parser.parseURL(url, (err, feed) => {
+          if (err) throw err;
+          const table = document.querySelector(`#rss-table-${index + 1}`);
+          feed.items.forEach(item => {
+            const row = table.insertRow();
+            const titleCell = row.insertCell();
+            titleCell.innerHTML = item.title;
+            const descCell = row.insertCell();
+            descCell.innerHTML = item.content;
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
